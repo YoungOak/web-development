@@ -3,6 +3,8 @@ import {Bar, Pie, Line} from 'react-chartjs-2';
 import { Dropdown } from 'react-bootstrap';
 import { thresholdScott } from "d3";
 import { findAllByTestId } from "@testing-library/react";
+import { CustomMenu, CustomToggle } from './Dropdown';
+import stylecss from '../style.css';
 
 
 class DropChart extends Component{
@@ -52,7 +54,7 @@ class DropChart extends Component{
                             <Dropdown.Toggle variant="info">
                                 {this.state.dropSelection}
                             </Dropdown.Toggle>
-                            <Dropdown.Menu>
+                            <Dropdown.Menu className="dropMenu">
                                 {this.dropMenuData.map(d => <Dropdown.Item onSelect={() => this.selection(d)}>{d}</Dropdown.Item>)}
                             </Dropdown.Menu>
                         </Dropdown>
@@ -74,7 +76,9 @@ class DropChart extends Component{
                                     xAxes: [{
                                         type: "time",
                                     }]
-                                }
+                                },
+                                responsive: true,
+                                devicePixelRatio: 4
                             }}
                         />    
                     </div>
