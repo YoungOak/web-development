@@ -1,11 +1,6 @@
 import React, { Component } from "react";
 import {Bar, Pie, Line} from 'react-chartjs-2';
-import { Dropdown } from 'react-bootstrap';
-import { thresholdScott } from "d3";
-import { findAllByTestId } from "@testing-library/react";
-import { CustomMenu, CustomToggle } from './Dropdown';
-import stylecss from '../style.css';
-
+import { Dropdown, Button } from 'semantic-ui-react';
 
 class DropChart extends Component{
 
@@ -14,59 +9,55 @@ class DropChart extends Component{
         this.dropMenuData = Object.keys(this.props.data)
         this.db = this.props.data
         this.state = {
-            dropSelection: "Afghanistan",
-            selection: "Afghanistan",
-            chartData: {
-                    labels: this.db["Afghanistan"].map(d => new Date(d["dateRep"])),
-                    datasets: [{
-                        label: 'Casos',
-                        data: this.db["Afghanistan"].map(d => d["cases"]),
-                        borderColor: "#3e95cd",
-                        fill: false
-                }]
-            }   
-        }
-        console.log(this.state.charData)
-        this.selection = this.selection.bind(this)
-    }
-
-    selection = function (sel){
-        this.setState({
-            dropSelection: sel,
-            chartData: {
-                labels: this.db[sel].map(d => new Date(d["dateRep"])),
-                datasets: [{
-                    label: 'Casos',
-                    data: this.db[sel].map(d => d["cases"]),
-                    borderColor: "#3e95cd",
-                    fill: false,
-                }]
+            choice: "Afghanistan",
+            chartData: {}
             }
-        })
+        
+        this.state["chartData"] = {
+            labels: this.db[this.state.choice].map(d => new Date(d["dateRep"])),
+            datasets: [{
+                label: 'Casos',
+                data: this.db[this.state.choice].map(d => d["cases"]),
+                borderColor: "#3e95cd",
+                fill: false
+            }]
+        }
     }
+    
+    test = (e, {value}) => console.log(value)
+
+    update = (e, {value}) => {this.setState({
+        choice: value,
+        chartData: {
+            labels: this.db[value].map(d => new Date(d["dateRep"])),
+            datasets: [{
+                label: 'Casos',
+                data: this.db[value].map(d => d["cases"]),
+                borderColor: "#3e95cd",
+                fill: false
+            }]
+        }
+    })}
 
 
     render() {
         return (
                 <div className="Chart">
-                    <div id={"option"}>
-                        <Dropdown>
-                            <Dropdown.Toggle variant="info">
-                                {this.state.dropSelection}
-                            </Dropdown.Toggle>
-                            <Dropdown.Menu className="dropMenu">
-                                {this.dropMenuData.map(d => <Dropdown.Item onSelect={() => this.selection(d)}>{d}</Dropdown.Item>)}
-                            </Dropdown.Menu>
-                        </Dropdown>
-                    </div>
-                    
-                    <div id="chart" height="600" width="400">
+                        <Dropdown
+                            placeholder = {this.state.choice}
+                            options = {this.dropMenuData.map((value, index) => ({"key": index, "text": value, "value": value}))}
+                            fluid
+                            search
+                            selection
+                            onChange = {this.update}
+                            noResultsMessage="Ninguna opción coincide..."
+                        />
                         <Line
                             data = {this.state.chartData}
                             options = {{
                                 title: {
                                     display: true,
-                                    text: this.state.dropSelection,
+                                    text: this.state.choice,
                                     fontSize: 25
                                 },
                                 legend: {
@@ -75,13 +66,13 @@ class DropChart extends Component{
                                 scales: {
                                     xAxes: [{
                                         type: "time",
+                                        time: {
+                                            unit: 'month'
+                                        }
                                     }]
                                 },
-                                responsive: true,
-                                devicePixelRatio: 4
                             }}
                         />    
-                    </div>
                 </div>
         )
     };
