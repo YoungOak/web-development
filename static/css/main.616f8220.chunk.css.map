@@ -1,1 +1,0 @@
-{"version":3,"sources":["style.css"],"names":[],"mappings":"AAAA,UACI,YAAa,CACb,eAAgB,CAChB,iBAAkB,CAClB,YACJ","file":"main.616f8220.chunk.css","sourcesContent":[".dropMenu{\r\n    height: 400px;\r\n    overflow: hidden;\r\n    overflow-y: scroll;\r\n    display: none;\r\n}"]}
