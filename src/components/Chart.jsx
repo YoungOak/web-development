@@ -6,74 +6,87 @@ class DropChart extends Component{
 
     constructor (props) {
         super(props)
-        this.dropMenuData = Object.keys(this.props.data)
-        this.db = this.props.data
+        this.url = this.props.data
         this.state = {
-            choice: "Afghanistan",
-            chartData: {}
+            choice: "None",
+            chartData: {},
+            data: [{}],
+            dropMenuData: []
             }
-        
-        this.state["chartData"] = {
-            labels: this.db[this.state.choice].map(d => new Date(d["dateRep"])),
-            datasets: [{
-                label: 'Casos',
-                data: this.db[this.state.choice].map(d => d["cases"]),
-                borderColor: "#3e95cd",
-                fill: false
-            }]
-        }
     }
     
-    test = (e, {value}) => console.log(value)
+    async componentDidMount() {
+        fetch(this.url)
+            .then((response) => response.json())
+            .then(data => {
+            this.setState({
+                data: data,
+                dropMenuData: Object.keys(data),
+                choice: Object.keys(data)[0]
+                });
+            this.setState({
+                chartData: {
+                    labels: this.state.data[this.state.choice].map(d => new Date(d["dateRep"])),
+                    datasets: [{
+                        label: 'Casos',
+                        data: this.state.data[this.state.choice].map(d => d["cases"]),
+                        borderColor: "#3e95cd",
+                        fill: false
+                    }]
+                }
+            })
+        })
+    }
 
     update = (e, {value}) => {this.setState({
         choice: value,
         chartData: {
-            labels: this.db[value].map(d => new Date(d["dateRep"])),
+            labels: this.state.data[value].map(d => new Date(d["dateRep"])),
             datasets: [{
                 label: 'Casos',
-                data: this.db[value].map(d => d["cases"]),
+                data: this.state.data[value].map(d => d["cases"]),
                 borderColor: "#3e95cd",
                 fill: false
             }]
         }
-    })}
+        }
+    )}
 
 
     render() {
         return (
-                <div className="Chart">
-                        <Dropdown
-                            placeholder = {this.state.choice}
-                            options = {this.dropMenuData.map((value, index) => ({"key": index, "text": value, "value": value}))}
-                            fluid
-                            search
-                            selection
-                            onChange = {this.update}
-                            noResultsMessage="Ninguna opción coincide..."
-                        />
-                        <Line
-                            data = {this.state.chartData}
-                            options = {{
-                                title: {
-                                    display: true,
-                                    text: this.state.choice,
-                                    fontSize: 25
-                                },
-                                legend: {
-                                    display: false
-                                },
-                                scales: {
-                                    xAxes: [{
-                                        type: "time",
-                                        time: {
-                                            unit: 'month'
-                                        }
-                                    }]
-                                },
-                            }}
-                        />    
-                </div>
+            <div className="Chart">
+                <Dropdown
+                    placeholder = {this.state.choice}
+                    options = {this.state.dropMenuData.map((value, index) => ({"key": index, "text": value, "value": value}))}
+                    fluid
+                    search
+                    selection
+                    onChange = {this.update}
+                    noResultsMessage="Ninguna opción coincide..."
+                />
+                <Line
+                    data = {this.state.chartData}
+                    options = {{
+                        title: {
+                            display: true,
+                            text: this.state.choice,
+                            fontSize: 25
+                        },
+                        legend: {
+                            display: false
+                        },
+                        scales: {
+                            xAxes: [{
+                                type: "time",
+                                time: {
+                                    unit: 'month'
+                                }
+                            }]
+                        },
+                    }}
+                />    
+            </div>
         )
     };
 }

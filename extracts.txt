@@ -3,3 +3,29 @@
                                     <Dropdown.Item key={index} onClick={this.test} value={value}>{value}</Dropdown.Item>
                                 ))}
                             </Dropdown.Menu>
+
+
+                            this.state["chartData"] = {
+            labels: this.db[this.state.choice].map(d => new Date(d["dateRep"])),
+            datasets: [{
+                label: 'Casos',
+                data: this.db[this.state.choice].map(d => d["cases"]),
+                borderColor: "#3e95cd",
+                fill: false
+            }]
+        }
+
+
+
+
+
+        
+
+        chartData: {
+            labels: this.state.data[value].map(d => new Date(d["dateRep"])),
+            datasets: [{
+                label: 'Casos',
+                data: this.state.data[value].map(d => d["cases"]),
+                borderColor: "#3e95cd",
+                fill: false
+            }]

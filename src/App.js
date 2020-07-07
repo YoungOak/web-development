@@ -15,7 +15,7 @@ function App() {
         </p>
       </header>
       <div>
-        <DropChart data={covid_data}></DropChart>
+        <DropChart data="https://raw.githubusercontent.com/YoungOak/web-development/master/covid_data.json"></DropChart>
       </div>
     </div>
   );
