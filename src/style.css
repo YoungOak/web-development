@@ -4,3 +4,7 @@
     overflow-y: scroll;
     display: none;
 }
+
+.Chart{
+    font-size: 35vw;
+}

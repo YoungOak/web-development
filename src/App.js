@@ -1,7 +1,6 @@
 import React from 'react';
 import logo from './logo.svg';
 import DropChart from "./components/Chart";
-import { covid_data } from "./covid_data";
 
 
 function App() {
