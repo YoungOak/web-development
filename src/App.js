@@ -1,20 +1,22 @@
 import React from 'react';
-import logo from './logo.svg';
 import DropChart from "./components/Chart";
+import D3Example from './components/D3Chart.jsx';
 
 
 function App() {
 
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-      </header>
       <div>
-        <DropChart data="https://raw.githubusercontent.com/YoungOak/web-development/master/covid_data.json"></DropChart>
+        <p>Gráficas de Casos</p>
+        <DropChart data="https://raw.githubusercontent.com/YoungOak/web-development/master/covid_data.json"
+                  x="dateRep"
+                  y="cases"></DropChart>
+        <p>Gráficas de Defunciones</p>
+        <DropChart data="https://raw.githubusercontent.com/YoungOak/web-development/master/covid_data.json"
+                  x="dateRep"
+                  y="deaths"></DropChart>
+        <D3Example/>
       </div>
     </div>
   );
