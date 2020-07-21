@@ -7,6 +7,8 @@ class DropChart extends Component{
     constructor (props) {
         super(props)
         this.url = this.props.data
+        this.x = this.props.x
+        this.y = this.props.y
         this.state = {
             choice: "None",
             chartData: {},
@@ -26,15 +28,15 @@ class DropChart extends Component{
                 });
             this.setState({
                 chartData: {
-                    labels: this.state.data[this.state.choice].map(d => new Date(d["dateRep"])),
+                    labels: this.state.data[this.state.choice].map(d => new Date(d[this.x])),
                     datasets: [{
                         label: 'Casos Suavizados',
-                        data: this.state.data[this.state.choice].map(d => d["smooth_cases"]),
+                        data: this.state.data[this.state.choice].map(d => d["smooth_"+this.y]),
                         borderColor: "#3e95cd",
                         fill: false
                     },{
                         label: 'Casos Diarios',
-                        data: this.state.data[this.state.choice].map(d => d["cases"]),
+                        data: this.state.data[this.state.choice].map(d => d[this.y]),
                         borderColor: "#0195cd",
                         backgroundColor: "#d1f2eb ",
                         fill: true,
@@ -48,15 +50,15 @@ class DropChart extends Component{
     update = (e, {value}) => {this.setState({
         choice: value,
         chartData: {
-            labels: this.state.data[value].map(d => new Date(d["dateRep"])),
+            labels: this.state.data[value].map(d => new Date(d[this.x])),
             datasets: [{
                 label: 'Casos Suavizados',
-                data: this.state.data[value].map(d => d["smooth_cases"]),
+                data: this.state.data[value].map(d => d["smooth_"+this.y]),
                 borderColor: "#3e95cd",
                 fill: false
             },{
                 label: 'Casos Diarios',
-                data: this.state.data[value].map(d => d["cases"]),
+                data: this.state.data[value].map(d => d[this.y]),
                 borderColor: "#0195cd",
                 backgroundColor: "#d1f2eb ",
                 fill: true,
@@ -109,7 +111,7 @@ class DropChart extends Component{
                     plugins = {[{
                         resize: function(c, o) {
                             var chartHeight = c.chart.height;
-                            var size = 15 + (700-chartHeight)*0.05;
+                            var size = chartHeight*0.04;
                             c.scales['y-axis-0'].options.ticks.minor.fontSize = size;
                             c.scales['x-axis-0'].options.ticks.minor.fontSize = size;
                         }
