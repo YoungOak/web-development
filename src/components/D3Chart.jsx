@@ -6,7 +6,7 @@ class D3Stuff extends React.Component {
         return (
             d3.select("body")
                 .append("p")
-                .text("Parrafo con D3");
+                .text("Parrafo con D3")
         )
     }
 }

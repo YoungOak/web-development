@@ -111,7 +111,7 @@ class DropChart extends Component{
                     plugins = {[{
                         resize: function(c, o) {
                             var chartHeight = c.chart.height;
-                            var size = 15 + (700-chartHeight)*0.05;
+                            var size = chartHeight*0.04;
                             c.scales['y-axis-0'].options.ticks.minor.fontSize = size;
                             c.scales['x-axis-0'].options.ticks.minor.fontSize = size;
                         }

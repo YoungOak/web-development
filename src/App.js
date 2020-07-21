@@ -1,6 +1,5 @@
 import React from 'react';
-import DropChart from "./components/Chart";
-import D3Example from './components/D3Chart.jsx';
+import DropChart from "./components/DropChart";
 
 
 function App() {
@@ -16,7 +15,6 @@ function App() {
         <DropChart data="https://raw.githubusercontent.com/YoungOak/web-development/master/covid_data.json"
                   x="dateRep"
                   y="deaths"></DropChart>
-        <D3Example/>
       </div>
     </div>
   );
